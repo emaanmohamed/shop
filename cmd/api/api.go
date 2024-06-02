@@ -23,7 +23,8 @@ func NewAPIServer(listenAddr string, db *sql.DB) *APIServer {
 func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 	sub := router.PathPrefix("/api/v1").Subrouter()
-	userHandler := user.NewHandler()
+	userStore := user.NewStore(s.DB)
+	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(sub)
 	log.Println("JSON API server running on port: ", s.ListenAddr)
 	return http.ListenAndServe(s.ListenAddr, sub)

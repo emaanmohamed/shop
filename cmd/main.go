@@ -1,7 +1,9 @@
 package main
 
 import (
+	"database/sql"
 	"github.com/emaanmohamed/shop/cmd/api"
+	"github.com/emaanmohamed/shop/config"
 	"github.com/emaanmohamed/shop/db"
 	"github.com/go-sql-driver/mysql"
 	"log"
@@ -9,7 +11,7 @@ import (
 
 func main() {
 	db.NewMySQLStorage(mysql.Config{
-		User:                 "root",
+		User:                 config.Envs.DBUser,
 		Passwd:               "",
 		Addr:                 "localhost:3306",
 		Net:                  "tcp",
@@ -21,4 +23,8 @@ func main() {
 	if err := server.Run(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func initStorage(db *sql.DB) {
+	
 }
